@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hoper — Concierge Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --black:   #0E0E0E;
+    --white:   #F8F5F0;
+    --gold:    #C9A84C;
+    --gold-lt: #E8D5A0;
+    --mid:     #6B6560;
+    --card-w:  88mm;
+    --card-h:  55mm;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1714;
+    font-family: 'Cormorant Garamond', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 48px;
+    padding: 48px 24px;
+  }
+
+  .page-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #555;
+    text-transform: uppercase;
+  }
+
+  /* ── CARD WRAPPER ── */
+  .card-set {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .card-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: #555;
+    text-transform: uppercase;
+  }
+
+  .card {
+    width: 338px;   /* 88mm at 96dpi */
+    height: 213px;  /* 55mm at 96dpi */
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 2px 4px rgba(0,0,0,0.4),
+      0 20px 60px rgba(0,0,0,0.6),
+      inset 0 0 0 0.5px rgba(201,168,76,0.25);
+  }
+
+  /* ══════════════════════════════════════════
+     FRONT — BLACK
+  ══════════════════════════════════════════ */
+  .card-front {
+    background: #0A0A09;
+  }
+
+  /* Gold texture overlay */
+  .card-front::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 180% 80% at 110% 60%, rgba(201,168,76,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 60% at -10% 40%, rgba(201,168,76,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* Thin gold border */
+  .card-front::after {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 0.5px solid rgba(201,168,76,0.18);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+
+  .front-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 22px 24px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1;
+  }
+
+  .front-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  /* Hoper wordmark */
+  .hoper-mark {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .hoper-icon {
+    width: 18px;
+    height: 18px;
+    opacity: 0.9;
+  }
+
+  .hoper-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #F0EBE0;
+    letter-spacing: 0.08em;
+  }
+
+  .front-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    opacity: 0.85;
+    padding-top: 2px;
+  }
+
+  .front-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px 0;
+  }
+
+  .front-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 400;
+    color: #F0EBE0;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+  }
+
+  .front-headline em {
+    font-style: italic;
+    color: var(--gold-lt);
+  }
+
+  .front-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10.5px;
+    font-weight: 300;
+    color: rgba(240,235,224,0.5);
+    letter-spacing: 0.06em;
+    font-style: italic;
+  }
+
+  .front-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .front-routes {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .route-chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5px;
+    letter-spacing: 0.12em;
+    color: rgba(201,168,76,0.7);
+  }
+
+  .front-qr-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  /* QR placeholder — real QR to be added in production */
+  .qr-box {
+    width: 38px;
+    height: 38px;
+    background: #F0EBE0;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .qr-box svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .qr-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 6px;
+    letter-spacing: 0.15em;
+    color: rgba(240,235,224,0.35);
+    text-transform: uppercase;
+  }
+
+  /* Gold diagonal accent line */
+  .gold-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.4) 30%, rgba(201,168,76,0.6) 50%, rgba(201,168,76,0.4) 70%, transparent 100%);
+  }
+
+
+  /* ══════════════════════════════════════════
+     BACK — WHITE/CREAM
+  ══════════════════════════════════════════ */
+  .card-back {
+    background: #F5F1EA;
+  }
+
+  .card-back::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 80% at 90% 10%, rgba(201,168,76,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .back-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 18px 22px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1;
+  }
+
+  .back-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .back-mark {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.22em;
+    color: #9B8F7A;
+    text-transform: uppercase;
+  }
+
+  .back-pillar {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .back-divider {
+    height: 0.5px;
+    background: linear-gradient(90deg, rgba(0,0,0,0.12) 0%, rgba(201,168,76,0.35) 50%, rgba(0,0,0,0.08) 100%);
+    margin: 4px 0;
+  }
+
+  /* Trilingual copy block */
+  .copy-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .lang-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .lang-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 6.5px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    min-width: 16px;
+    opacity: 0.8;
+  }
+
+  .lang-copy {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: #1E1A16;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+  }
+
+  .lang-copy em {
+    font-style: italic;
+    color: #4A3D2A;
+  }
+
+  /* Contact section */
+  .back-contact {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .contact-block {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .contact-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .contact-icon {
+    font-size: 8px;
+    color: var(--gold);
+    opacity: 0.8;
+  }
+
+  .contact-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5px;
+    letter-spacing: 0.08em;
+    color: #3A3228;
+  }
+
+  .back-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  .back-logo-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #1E1A16;
+    letter-spacing: 0.08em;
+  }
+
+  .back-logo-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 6px;
+    letter-spacing: 0.18em;
+    color: #9B8F7A;
+    text-transform: uppercase;
+  }
+
+  /* ── LANGUAGE VARIANTS ROW ── */
+  .variants-section {
+    width: 100%;
+    max-width: 760px;
+  }
+
+  .variants-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: #444;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .variant-cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Variant: compact back-only language cards */
+  .variant-card {
+    width: 220px;
+    background: #F5F1EA;
+    border-radius: 4px;
+    padding: 14px 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    border: 0.5px solid rgba(201,168,76,0.2);
+  }
+
+  .variant-lang {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.22em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .variant-lang::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: rgba(201,168,76,0.3);
+  }
+
+  .variant-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: #1E1A16;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .variant-headline em {
+    font-style: italic;
+    color: #6B4E1A;
+  }
+
+  .variant-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9.5px;
+    font-weight: 300;
+    font-style: italic;
+    color: #7A6F62;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+
+  .variant-cta {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.15em;
+    color: #3A3228;
+    text-transform: uppercase;
+    border-top: 0.5px solid rgba(0,0,0,0.1);
+    padding-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .variant-cta-arrow {
+    color: var(--gold);
+    font-size: 9px;
+  }
+
+  /* ── COPY NOTES ── */
+  .copy-notes {
+    width: 100%;
+    max-width: 760px;
+    background: #111;
+    border-radius: 6px;
+    padding: 24px 28px;
+    border: 0.5px solid rgba(201,168,76,0.15);
+  }
+
+  .notes-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 0.5px solid rgba(201,168,76,0.2);
+  }
+
+  .notes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+
+  .note-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .note-lang {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .note-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .note-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.12em;
+    color: #555;
+    text-transform: uppercase;
+  }
+
+  .note-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    color: #CCC;
+    line-height: 1.35;
+    font-style: italic;
+  }
+
+  .note-text strong {
+    font-style: normal;
+    font-weight: 500;
+    color: #E8E2D8;
+  }
+
+  /* Print hint */
+  .print-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    color: #3A3A3A;
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  @media (max-width: 600px) {
+    .card-set { gap: 24px; }
+    .notes-grid { grid-template-columns: 1fr; }
+    .variant-cards { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-label">Hoper Aviation — Concierge Card System — Physical + QR Format — Print Ready 88×55mm</div>
+
+<!-- ── FRONT + BACK ── -->
+<div class="card-set">
+
+  <!-- FRONT -->
+  <div class="card-group">
+    <div class="card-label">Front — Black</div>
+    <div class="card card-front">
+      <div class="front-inner">
+
+        <div class="front-top">
+          <div class="hoper-mark">
+            <svg class="hoper-icon" viewBox="0 0 24 24" fill="none">
+              <!-- Stylised helicopter silhouette -->
+              <path d="M3 12h18" stroke="#C9A84C" stroke-width="0.8" stroke-linecap="round"/>
+              <path d="M7 12 Q10 7 14 9 Q17 10.5 17 12" stroke="#F0EBE0" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+              <circle cx="14" cy="9" r="1.2" fill="#C9A84C"/>
+              <path d="M14 9 L14 6" stroke="#C9A84C" stroke-width="0.8"/>
+              <path d="M11 6 L17 6" stroke="#C9A84C" stroke-width="1" stroke-linecap="round"/>
+              <path d="M17 12 L18.5 14.5" stroke="#F0EBE0" stroke-width="0.8" stroke-linecap="round"/>
+              <path d="M7 12 L6 14.5" stroke="#F0EBE0" stroke-width="0.8" stroke-linecap="round"/>
+              <path d="M6 14.5 L18.5 14.5" stroke="#F0EBE0" stroke-width="0.8" stroke-linecap="round"/>
+            </svg>
+            <span class="hoper-name">hoper</span>
+          </div>
+          <span class="front-tag">Private Aviation</span>
+        </div>
+
+        <div class="front-center">
+          <div class="front-headline">
+            No schedules.<br><em>Just fly.</em>
+          </div>
+          <div class="front-tagline">Private helicopter. Any destination. On your time.</div>
+        </div>
+
+        <div class="front-bottom">
+          <div class="front-routes">
+            <span class="route-chip">ATH → MYK  35'</span>
+            <span class="route-chip">ATH → JTR  45'</span>
+            <span class="route-chip">NCE → MCO  12'</span>
+          </div>
+          <div class="front-qr-area">
+            <div class="qr-box">
+              <!-- Simplified QR pattern — replace with real QR in production -->
+              <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="8" height="8" fill="#0A0A09" rx="1"/>
+                <rect x="3" y="3" width="6" height="6" fill="#F5F1EA"/>
+                <rect x="4" y="4" width="4" height="4" fill="#0A0A09" rx="0.5"/>
+                <rect x="22" y="2" width="8" height="8" fill="#0A0A09" rx="1"/>
+                <rect x="23" y="3" width="6" height="6" fill="#F5F1EA"/>
+                <rect x="24" y="4" width="4" height="4" fill="#0A0A09" rx="0.5"/>
+                <rect x="2" y="22" width="8" height="8" fill="#0A0A09" rx="1"/>
+                <rect x="3" y="23" width="6" height="6" fill="#F5F1EA"/>
+                <rect x="4" y="24" width="4" height="4" fill="#0A0A09" rx="0.5"/>
+                <rect x="12" y="2" width="2" height="2" fill="#0A0A09"/>
+                <rect x="15" y="2" width="2" height="2" fill="#0A0A09"/>
+                <rect x="12" y="5" width="5" height="2" fill="#0A0A09"/>
+                <rect x="12" y="8" width="2" height="2" fill="#0A0A09"/>
+                <rect x="2" y="12" width="2" height="2" fill="#0A0A09"/>
+                <rect x="5" y="12" width="4" height="2" fill="#0A0A09"/>
+                <rect x="10" y="12" width="2" height="5" fill="#0A0A09"/>
+                <rect x="13" y="13" width="4" height="2" fill="#0A0A09"/>
+                <rect x="18" y="12" width="2" height="2" fill="#0A0A09"/>
+                <rect x="21" y="12" width="4" height="2" fill="#0A0A09"/>
+                <rect x="26" y="12" width="4" height="2" fill="#0A0A09"/>
+                <rect x="14" y="16" width="2" height="4" fill="#0A0A09"/>
+                <rect x="18" y="15" width="4" height="2" fill="#0A0A09"/>
+                <rect x="18" y="18" width="2" height="4" fill="#0A0A09"/>
+                <rect x="22" y="18" width="4" height="2" fill="#0A0A09"/>
+                <rect x="26" y="16" width="2" height="6" fill="#0A0A09"/>
+                <rect x="12" y="22" width="2" height="4" fill="#0A0A09"/>
+                <rect x="15" y="22" width="4" height="2" fill="#0A0A09"/>
+                <rect x="20" y="22" width="2" height="2" fill="#0A0A09"/>
+                <rect x="14" y="26" width="2" height="4" fill="#0A0A09"/>
+                <rect x="18" y="26" width="4" height="4" fill="#0A0A09"/>
+                <rect x="24" y="24" width="2" height="2" fill="#0A0A09"/>
+                <rect x="27" y="24" width="3" height="4" fill="#0A0A09"/>
+              </svg>
+            </div>
+            <span class="qr-label">Scan to book</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="gold-line"></div>
+    </div>
+  </div>
+
+  <!-- BACK -->
+  <div class="card-group">
+    <div class="card-label">Back — Cream</div>
+    <div class="card card-back">
+      <div class="back-inner">
+
+        <div class="back-top">
+          <span class="back-mark">flyhoper.com</span>
+          <span class="back-pillar">Private Charter</span>
+        </div>
+
+        <div class="back-divider"></div>
+
+        <div class="copy-block">
+          <div class="lang-row">
+            <span class="lang-tag">EN</span>
+            <span class="lang-copy">Your guests fly on their schedule.<br><em>No transfers. No waiting.</em></span>
+          </div>
+          <div class="lang-row">
+            <span class="lang-tag">GR</span>
+            <span class="lang-copy">Οι επισκέπτες σας πετούν με το πρόγραμμά τους.<br><em>Χωρίς μεταφορές. Χωρίς αναμονή.</em></span>
+          </div>
+          <div class="lang-row">
+            <span class="lang-tag">FR</span>
+            <span class="lang-copy">Vos clients volent selon leur emploi du temps.<br><em>Sans transfert. Sans attente.</em></span>
+          </div>
+        </div>
+
+        <div class="back-contact">
+          <div class="contact-block">
+            <div class="contact-line">
+              <span class="contact-icon">✦</span>
+              <span class="contact-text">+30 210 XXX XXXX</span>
+            </div>
+            <div class="contact-line">
+              <span class="contact-icon">✦</span>
+              <span class="contact-text">concierge@flyhoper.com</span>
+            </div>
+            <div class="contact-line">
+              <span class="contact-icon">✦</span>
+              <span class="contact-text">WhatsApp available 24/7</span>
+            </div>
+          </div>
+          <div class="back-logo">
+            <span class="back-logo-name">hoper</span>
+            <span class="back-logo-sub">Aviation</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ── LANGUAGE COPY VARIANTS ── -->
+<div class="variants-section">
+  <div class="variants-title">Copy Lines — Three Language Variants — Card Back Headline</div>
+  <div class="variant-cards">
+
+    <!-- EN -->
+    <div class="variant-card">
+      <div class="variant-lang">EN — English</div>
+      <div class="variant-headline">Your guests fly<br>on <em>their</em> schedule.</div>
+      <div class="variant-sub">No transfers. No waiting. Private helicopter to any Greek island or Mediterranean destination — confirmed in minutes.</div>
+      <div class="variant-cta">
+        <span>Request a flight</span>
+        <span class="variant-cta-arrow">→</span>
+      </div>
+    </div>
+
+    <!-- GR -->
+    <div class="variant-card">
+      <div class="variant-lang">GR — Ελληνικά</div>
+      <div class="variant-headline">Οι επισκέπτες σας πετούν<br>με <em>το δικό τους</em> πρόγραμμα.</div>
+      <div class="variant-sub">Χωρίς μεταφορές. Χωρίς αναμονή. Ιδιωτικό ελικόπτερο σε οποιοδήποτε νησί ή προορισμό — επιβεβαίωση σε λεπτά.</div>
+      <div class="variant-cta">
+        <span>Αίτημα πτήσης</span>
+        <span class="variant-cta-arrow">→</span>
+      </div>
+    </div>
+
+    <!-- FR -->
+    <div class="variant-card">
+      <div class="variant-lang">FR — Français</div>
+      <div class="variant-headline">Vos clients volent<br>selon <em>leur</em> emploi du temps.</div>
+      <div class="variant-sub">Sans transfert. Sans attente. Hélicoptère privé vers toute île grecque ou destination méditerranéenne — confirmé en quelques minutes.</div>
+      <div class="variant-cta">
+        <span>Demander un vol</span>
+        <span class="variant-cta-arrow">→</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ── FULL COPY SYSTEM ── -->
+<div class="copy-notes">
+  <div class="notes-title">Complete Copy System — All Elements — Three Languages</div>
+  <div class="notes-grid">
+
+    <!-- EN -->
+    <div class="note-col">
+      <div class="note-lang">EN — English</div>
+      <div class="note-item">
+        <div class="note-label">Front headline</div>
+        <div class="note-text"><strong>No schedules.</strong> Just fly.</div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">Front subline</div>
+        <div class="note-text">Private helicopter. Any destination. On your time.</div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">Back headline</div>
+        <div class="note-text">Your guests fly on <strong>their</strong> schedule.</div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">Back body</div>
+        <div class="note-text">No transfers. No waiting. Confirmed in minutes.</div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">CTA</div>
+        <div class="note-text"><strong>Request a flight →</strong></div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">Contact label</div>
+        <div class="note-text">WhatsApp available 24/7</div>
+      </div>
+    </div>
+
+    <!-- GR -->
+    <div class="note-col">
+      <div class="note-lang">GR — Ελληνικά</div>
+      <div class="note-item">
+        <div class="note-label">Front headline</div>
+        <div class="note-text"><strong>Χωρίς προγράμματα.</strong> Απλά πετάς.</div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">Front subline</div>
+        <div class="note-text">Ιδιωτικό ελικόπτερο. Οποιοσδήποτε προορισμός. Στον δικό σου χρόνο.</div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">Back headline</div>
+        <div class="note-text">Οι επισκέπτες σας πετούν με <strong>το δικό τους</strong> πρόγραμμα.</div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">Back body</div>
+        <div class="note-text">Χωρίς μεταφορές. Χωρίς αναμονή. Επιβεβαίωση σε λεπτά.</div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">CTA</div>
+        <div class="note-text"><strong>Αίτημα πτήσης →</strong></div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">Contact label</div>
+        <div class="note-text">WhatsApp διαθέσιμο 24/7</div>
+      </div>
+    </div>
+
+    <!-- FR -->
+    <div class="note-col">
+      <div class="note-lang">FR — Français</div>
+      <div class="note-item">
+        <div class="note-label">Front headline</div>
+        <div class="note-text"><strong>Pas d'horaires.</strong> Volez, c'est tout.</div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">Front subline</div>
+        <div class="note-text">Hélicoptère privé. Toute destination. À votre heure.</div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">Back headline</div>
+        <div class="note-text">Vos clients volent selon <strong>leur</strong> emploi du temps.</div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">Back body</div>
+        <div class="note-text">Sans transfert. Sans attente. Confirmé en quelques minutes.</div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">CTA</div>
+        <div class="note-text"><strong>Demander un vol →</strong></div>
+      </div>
+      <div class="note-item">
+        <div class="note-label">Contact label</div>
+        <div class="note-text">WhatsApp disponible 24/7</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="print-note">Production spec: 88×55mm · Laminated matte black (front) + soft-touch cream (back) · Gold foil on wordmark + headline · QR links to flyhoper.com/concierge</div>
+
+</body>
+</html>

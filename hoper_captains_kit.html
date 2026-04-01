@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hoper — Captain's Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:  #070605;
+  --navy:   #0D1B2A;
+  --cream:  #F2EEE5;
+  --gold:   #C9A84C;
+  --gold2:  #E8D5A0;
+  --mid:    #7A6F62;
+  --steel:  #2A3B4C;
+  --rule:   rgba(201,168,76,0.2);
+  --w: 900px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: #0D0D0C;
+  font-family: 'Cormorant Garamond', serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px 80px;
+  gap: 32px;
+}
+
+.meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .22em;
+  color: #333;
+  text-transform: uppercase;
+}
+
+/* ══════════════════════════════════
+   PIECE 1 — A5 CARD (FRONT+BACK)
+   The physical card left at marina
+   captain's lounge / yacht office
+══════════════════════════════════ */
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: .25em;
+  color: #444;
+  text-transform: uppercase;
+  align-self: flex-start;
+  padding-left: 4px;
+  width: var(--w);
+}
+
+.card-row {
+  display: flex;
+  gap: 20px;
+  width: var(--w);
+}
+
+/* A5 card: 148×210mm → 560×794px at 96dpi  */
+.a5-card {
+  width: 420px;
+  height: 297px;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,.65);
+  flex-shrink: 0;
+}
+
+/* ── FRONT: DARK NAVY ── */
+.a5-front {
+  background: var(--navy);
+}
+
+.a5-front::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 100% 60% at 110% 50%, rgba(201,168,76,.08) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 100% at -5% 80%, rgba(13,27,42,0) 0%, rgba(7,6,5,.4) 100%);
+  pointer-events: none;
+}
+
+.a5-front::after {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border: .5px solid rgba(201,168,76,.14);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.front-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%; height: 100%;
+  padding: 24px 28px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.front-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.front-wordmark {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--cream);
+  letter-spacing: .1em;
+}
+
+.front-type {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: .22em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.front-mid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.front-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--cream);
+  line-height: 1.25;
+}
+
+.front-headline em {
+  font-style: italic;
+  color: var(--gold2);
+}
+
+.front-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11.5px;
+  font-weight: 300;
+  color: rgba(242,238,229,.45);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.front-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.front-routes {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.route-line {
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: .1em;
+  color: rgba(201,168,76,.65);
+}
+
+.front-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.front-contact-line {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: .08em;
+  color: rgba(242,238,229,.45);
+}
+
+.front-contact-wa {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .1em;
+  color: var(--cream);
+  font-weight: 500;
+}
+
+.gold-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold) 25%, var(--gold) 75%, transparent);
+  opacity: .35;
+}
+
+/* ── BACK: CREAM ── */
+.a5-back {
+  background: var(--cream);
+}
+
+.back-inner {
+  width: 100%; height: 100%;
+  padding: 22px 26px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+
+.back-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: .5px solid var(--rule);
+}
+
+.back-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: .22em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.back-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(7,6,5,.35);
+}
+
+/* Route quick-ref table */
+.quick-table {
+  width: 100%;
+  border-collapse: collapse;
+  flex: 1;
+}
+
+.quick-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: .18em;
+  color: var(--gold);
+  text-transform: uppercase;
+  text-align: left;
+  padding: 0 0 5px;
+  border-bottom: .5px solid var(--rule);
+}
+
+.quick-table td {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11.5px;
+  color: var(--black);
+  padding: 4px 0 3px;
+  border-bottom: .5px solid rgba(0,0,0,.06);
+  vertical-align: middle;
+}
+
+.quick-table td.t {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  color: var(--gold);
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+
+.quick-table td.note {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: .1em;
+  color: var(--mid);
+  text-transform: uppercase;
+}
+
+.arr { color: var(--gold); font-size: 8px; padding: 0 5px; }
+
+.back-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: 8px;
+  border-top: .5px solid var(--rule);
+}
+
+.back-footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.back-footer-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: .08em;
+  color: rgba(7,6,5,.5);
+}
+
+.back-footer-wa {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: .1em;
+  color: var(--black);
+  font-weight: 500;
+}
+
+/* ══════════════════════════════════
+   PIECE 2 — PROTOCOL SHEET
+   One-page ops reference for captains
+══════════════════════════════════ */
+.protocol-sheet {
+  width: var(--w);
+  background: var(--cream);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,.55);
+}
+
+.proto-header {
+  background: var(--black);
+  padding: 20px 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.proto-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold) 80%, transparent);
+  opacity: .4;
+}
+
+.proto-wordmark {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--cream);
+  letter-spacing: .1em;
+}
+
+.proto-doc {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.proto-doc-type {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: .22em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.proto-doc-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(242,238,229,.6);
+  font-style: italic;
+}
+
+.proto-body {
+  padding: 28px 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.proto-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.proto-section-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: .25em;
+  color: var(--gold);
+  text-transform: uppercase;
+  padding-bottom: 8px;
+  border-bottom: .5px solid var(--rule);
+}
+
+/* 3-col grid for booking steps */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.step-box {
+  padding: 0 20px;
+  border-right: .5px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.step-box:first-child { padding-left: 0; }
+.step-box:last-child { border-right: none; }
+
+.step-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: rgba(201,168,76,.2);
+  line-height: 1;
+}
+
+.step-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--black);
+}
+
+.step-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.step-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: .14em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+/* Two-col grid for fleet + routes */
+.two-col-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+/* Fleet quick-ref */
+.fleet-ref {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fleet-ref-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding-bottom: 8px;
+  border-bottom: .5px solid var(--rule);
+}
+
+.fleet-ref-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+.fleet-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: .12em;
+  color: var(--gold);
+  background: rgba(201,168,76,.08);
+  border: .5px solid var(--rule);
+  border-radius: 2px;
+  padding: 3px 6px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.fleet-ref-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fleet-ref-models {
+  font-family: 'Playfair Display', serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--black);
+}
+
+.fleet-ref-note {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--mid);
+  font-style: italic;
+  line-height: 1.35;
+}
+
+/* Route ref table */
+.route-ref-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.route-ref-table td {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px;
+  color: var(--black);
+  padding: 4px 0 3px;
+  border-bottom: .5px solid rgba(0,0,0,.07);
+  vertical-align: middle;
+}
+
+.route-ref-table td.dur {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  color: var(--gold);
+  letter-spacing: .06em;
+  text-align: right;
+}
+
+.route-ref-table td.cat {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: .1em;
+  color: var(--mid);
+  text-transform: uppercase;
+  text-align: right;
+  padding-left: 8px;
+}
+
+/* Script block */
+.script-block {
+  background: var(--navy);
+  border-radius: 4px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: .5px solid rgba(201,168,76,.12);
+}
+
+.script-lang-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.script-lang {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: .18em;
+  color: var(--gold);
+  text-transform: uppercase;
+  flex-shrink: 0;
+  min-width: 20px;
+  padding-top: 2px;
+}
+
+.script-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12.5px;
+  font-weight: 300;
+  color: rgba(242,238,229,.75);
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.script-text strong {
+  font-style: normal;
+  font-weight: 500;
+  color: var(--gold2);
+}
+
+.script-divider {
+  height: .5px;
+  background: var(--rule);
+}
+
+/* Contact strip */
+.contact-strip {
+  background: var(--black);
+  border-radius: 4px;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: .5px solid rgba(201,168,76,.1);
+}
+
+.contact-strip-left {
+  display: flex;
+  gap: 28px;
+}
+
+.cs-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cs-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 6.5px;
+  letter-spacing: .2em;
+  color: rgba(242,238,229,.2);
+  text-transform: uppercase;
+}
+
+.cs-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: .06em;
+  color: rgba(242,238,229,.7);
+}
+
+.contact-strip-right {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(242,238,229,.3);
+  font-style: italic;
+}
+
+/* ══════════════════════════════════
+   PIECE 3 — MARINA PLACEMENT CARD
+   Smaller format for notice boards
+══════════════════════════════════ */
+.marina-card {
+  width: var(--w);
+  background: var(--navy);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,.55);
+  border: .5px solid rgba(201,168,76,.15);
+}
+
+.marina-inner {
+  padding: 24px 36px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+
+.marina-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.marina-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: .22em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.marina-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--cream);
+  line-height: 1.2;
+}
+
+.marina-headline em { font-style: italic; color: var(--gold2); }
+
+.marina-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(242,238,229,.45);
+  font-style: italic;
+}
+
+.marina-center {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 24px;
+}
+
+.marina-route {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: .5px solid rgba(201,168,76,.1);
+}
+
+.marina-route-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px;
+  color: var(--cream);
+}
+
+.marina-route-time {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  color: var(--gold);
+  letter-spacing: .06em;
+}
+
+.marina-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.marina-wa-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 7px;
+  letter-spacing: .18em;
+  color: rgba(242,238,229,.25);
+  text-transform: uppercase;
+}
+
+.marina-wa-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: .08em;
+  color: var(--cream);
+  font-weight: 500;
+}
+
+.marina-url {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: .14em;
+  color: rgba(201,168,76,.5);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="meta">Hoper Aviation — Captain's Kit — Marina / Yacht Operator — A5 Card · Protocol Sheet · Marina Placement</div>
+
+<!-- ══════════════════════
+   PIECE 1: A5 CARD
+══════════════════════ -->
+<div class="section-label">01 — A5 Physical Card · Captain's Lounge / Yacht Office · Front + Back</div>
+
+<div class="card-row">
+
+  <!-- FRONT -->
+  <div class="a5-card a5-front">
+    <div class="front-inner">
+      <div class="front-top">
+        <span class="front-wordmark">hoper</span>
+        <span class="front-type">Captain's Reference</span>
+      </div>
+      <div class="front-mid">
+        <div class="front-headline">
+          Your guests ask.<br>
+          <em>One call and they fly.</em>
+        </div>
+        <div class="front-sub">Private helicopter, on demand. Any island, any port, any time. Booked and confirmed in minutes — through you.</div>
+      </div>
+      <div class="front-bottom">
+        <div class="front-routes">
+          <span class="route-line">ATH → MYK  35'</span>
+          <span class="route-line">ATH → JTR  45'</span>
+          <span class="route-line">MYK → JTR  20'</span>
+          <span class="route-line">NCE → MCO  12'</span>
+          <span class="route-line">+ Custom routes on request</span>
+        </div>
+        <div class="front-contact">
+          <span class="front-contact-line">Captain's line</span>
+          <span class="front-contact-wa">+30 210 XXX XXXX</span>
+          <span class="front-contact-line">flyhoper.com</span>
+        </div>
+      </div>
+    </div>
+    <div class="gold-bar"></div>
+  </div>
+
+  <!-- BACK -->
+  <div class="a5-card a5-back">
+    <div class="back-inner">
+      <div class="back-header">
+        <span class="back-title">Quick Route Reference</span>
+        <span class="back-brand">hoper</span>
+      </div>
+      <table class="quick-table">
+        <thead>
+          <tr>
+            <th>From</th>
+            <th></th>
+            <th>To</th>
+            <th>Time</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Athens</td><td><span class="arr">→</span></td><td>Mykonos</td>
+            <td class="t">35'</td><td class="note">Sched + Priv</td>
+          </tr>
+          <tr>
+            <td>Athens</td><td><span class="arr">→</span></td><td>Santorini</td>
+            <td class="t">45'</td><td class="note">Sched + Priv</td>
+          </tr>
+          <tr>
+            <td>Athens</td><td><span class="arr">→</span></td><td>Rhodes</td>
+            <td class="t">50'</td><td class="note">Sched + Priv</td>
+          </tr>
+          <tr>
+            <td>Athens</td><td><span class="arr">→</span></td><td>Corfu</td>
+            <td class="t">45'</td><td class="note">Sched + Priv</td>
+          </tr>
+          <tr>
+            <td>Mykonos</td><td><span class="arr">→</span></td><td>Santorini</td>
+            <td class="t">20'</td><td class="note">Private</td>
+          </tr>
+          <tr>
+            <td>Nice</td><td><span class="arr">→</span></td><td>Monaco</td>
+            <td class="t">12'</td><td class="note">Private</td>
+          </tr>
+          <tr>
+            <td>Nice</td><td><span class="arr">→</span></td><td>St. Tropez</td>
+            <td class="t">22'</td><td class="note">Private</td>
+          </tr>
+          <tr>
+            <td>Any point</td><td><span class="arr">→</span></td><td>Custom</td>
+            <td class="t">TBC</td><td class="note">On request</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="back-footer">
+        <div class="back-footer-left">
+          <span class="back-footer-item">flyhoper.com</span>
+          <span class="back-footer-item">trade@flyhoper.com</span>
+        </div>
+        <div class="back-footer-left" style="align-items:flex-end">
+          <span class="back-footer-item">Captain's line · 24/7</span>
+          <span class="back-footer-wa">+30 210 XXX XXXX</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════
+   PIECE 2: PROTOCOL SHEET
+══════════════════════ -->
+<div class="section-label">02 — Captain's Protocol Sheet · How to book for your guests · Suggested scripts</div>
+
+<div class="protocol-sheet">
+  <div class="proto-header">
+    <span class="proto-wordmark">hoper</span>
+    <div class="proto-doc">
+      <span class="proto-doc-type">Captain's Protocol</span>
+      <span class="proto-doc-title">Booking a flight for your guests</span>
+    </div>
+  </div>
+
+  <div class="proto-body">
+
+    <!-- BOOKING STEPS -->
+    <div class="proto-section">
+      <div class="proto-section-title">How to book — 3 steps</div>
+      <div class="steps-grid">
+        <div class="step-box">
+          <div class="step-n">01</div>
+          <div class="step-title">Contact us directly</div>
+          <div class="step-body">WhatsApp, call or email. Captain's line answered in minutes, 24/7. No portal, no queue. A person picks up.</div>
+          <div class="step-note">+30 210 XXX XXXX · WhatsApp preferred</div>
+        </div>
+        <div class="step-box">
+          <div class="step-n">02</div>
+          <div class="step-title">Share the details</div>
+          <div class="step-body">Route. Date and time. Number of guests. Any preferences — aircraft type, luggage, special needs. We take it from there.</div>
+          <div class="step-note">Confirmation returned in under 3 minutes</div>
+        </div>
+        <div class="step-box">
+          <div class="step-n">03</div>
+          <div class="step-title">Guests are met &amp; flown</div>
+          <div class="step-body">Full logistics handled by Hoper. You can forward the confirmation to your guests directly, or let us coordinate with them.</div>
+          <div class="step-note">White-label communication available</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLEET + ROUTES -->
+    <div class="proto-section">
+      <div class="proto-section-title">Fleet &amp; Routes</div>
+      <div class="two-col-grid">
+
+        <div class="fleet-ref">
+          <div class="fleet-ref-row">
+            <span class="fleet-badge">Scheduled</span>
+            <div class="fleet-ref-text">
+              <span class="fleet-ref-models">Robinson R44 · R66</span>
+              <span class="fleet-ref-note">Shared cabin. Daily fixed routes Athens to islands. Most cost-effective option for solo guests or small groups.</span>
+            </div>
+          </div>
+          <div class="fleet-ref-row">
+            <span class="fleet-badge">Private</span>
+            <div class="fleet-ref-text">
+              <span class="fleet-ref-models">Bell 407 · H120 · H125</span>
+              <span class="fleet-ref-note">Fully private. 4–6 guests. Larger cabin, executive finish, panoramic views. Any route, any time.</span>
+            </div>
+          </div>
+          <div class="fleet-ref-row">
+            <span class="fleet-badge">Premium</span>
+            <div class="fleet-ref-text">
+              <span class="fleet-ref-models">Airbus H135 Twin-Engine</span>
+              <span class="fleet-ref-note">The highest specification available. Twin-engine safety, maximum cabin comfort. Recommended for principal guests and families.</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <table class="route-ref-table">
+            <tbody>
+              <tr>
+                <td>Athens → Mykonos</td>
+                <td class="dur">35'</td>
+                <td class="cat">GR</td>
+              </tr>
+              <tr>
+                <td>Athens → Santorini</td>
+                <td class="dur">45'</td>
+                <td class="cat">GR</td>
+              </tr>
+              <tr>
+                <td>Athens → Rhodes</td>
+                <td class="dur">50'</td>
+                <td class="cat">GR</td>
+              </tr>
+              <tr>
+                <td>Athens → Corfu</td>
+                <td class="dur">45'</td>
+                <td class="cat">GR</td>
+              </tr>
+              <tr>
+                <td>Mykonos → Santorini</td>
+                <td class="dur">20'</td>
+                <td class="cat">GR</td>
+              </tr>
+              <tr>
+                <td>Athens → Costa Navarino</td>
+                <td class="dur">55'</td>
+                <td class="cat">GR Resort</td>
+              </tr>
+              <tr>
+                <td>Nice → Monaco</td>
+                <td class="dur">12'</td>
+                <td class="cat">Riviera</td>
+              </tr>
+              <tr>
+                <td>Nice → St. Tropez</td>
+                <td class="dur">22'</td>
+                <td class="cat">Riviera</td>
+              </tr>
+              <tr>
+                <td>Any point → Custom</td>
+                <td class="dur">TBC</td>
+                <td class="cat">On request</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SUGGESTED SCRIPTS -->
+    <div class="proto-section">
+      <div class="proto-section-title">Suggested scripts — what to say to your guests</div>
+      <div class="script-block">
+        <div class="script-lang-row">
+          <span class="script-lang">EN</span>
+          <span class="script-text">"I can arrange a <strong>private helicopter</strong> for you — confirmed in minutes. Athens to Mykonos takes <strong>35 minutes</strong>. Would you like me to book it?"</span>
+        </div>
+        <div class="script-divider"></div>
+        <div class="script-lang-row">
+          <span class="script-lang">GR</span>
+          <span class="script-text">"Μπορώ να κανονίσω <strong>ιδιωτικό ελικόπτερο</strong> — επιβεβαίωση σε λεπτά. Αθήνα–Μύκονος σε <strong>35 λεπτά</strong>. Να το κλείσω;"</span>
+        </div>
+        <div class="script-divider"></div>
+        <div class="script-lang-row">
+          <span class="script-lang">FR</span>
+          <span class="script-text">"Je peux organiser un <strong>hélicoptère privé</strong> — confirmé en quelques minutes. Athènes–Mykonos en <strong>35 minutes</strong>. Voulez-vous que je réserve?"</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="contact-strip">
+      <div class="contact-strip-left">
+        <div class="cs-item">
+          <span class="cs-label">Captain's Line · WhatsApp</span>
+          <span class="cs-val">+30 210 XXX XXXX</span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-label">Email</span>
+          <span class="cs-val">captains@flyhoper.com</span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-label">Web</span>
+          <span class="cs-val">flyhoper.com</span>
+        </div>
+        <div class="cs-item">
+          <span class="cs-label">Response</span>
+          <span class="cs-val">&lt; 3 min · 24/7</span>
+        </div>
+      </div>
+      <div class="contact-strip-right">Your guests ask once.</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════
+   PIECE 3: MARINA CARD
+══════════════════════ -->
+<div class="section-label">03 — Marina Placement Card · Notice board / Marina office desk · Horizontal format</div>
+
+<div class="marina-card">
+  <div class="marina-inner">
+    <div class="marina-left">
+      <span class="marina-tag">hoper · Private Aviation</span>
+      <div class="marina-headline">
+        Your next<br>destination.<br><em>By helicopter.</em>
+      </div>
+      <div class="marina-sub">Private. On demand.<br>Confirmed in minutes.</div>
+    </div>
+    <div class="marina-center">
+      <div class="marina-route">
+        <span class="marina-route-name">Athens → Mykonos</span>
+        <span class="marina-route-time">35'</span>
+      </div>
+      <div class="marina-route">
+        <span class="marina-route-name">Nice → Monaco</span>
+        <span class="marina-route-time">12'</span>
+      </div>
+      <div class="marina-route">
+        <span class="marina-route-name">Athens → Santorini</span>
+        <span class="marina-route-time">45'</span>
+      </div>
+      <div class="marina-route">
+        <span class="marina-route-name">Nice → St. Tropez</span>
+        <span class="marina-route-time">22'</span>
+      </div>
+      <div class="marina-route">
+        <span class="marina-route-name">Mykonos → Santorini</span>
+        <span class="marina-route-time">20'</span>
+      </div>
+      <div class="marina-route">
+        <span class="marina-route-name">Any route on request</span>
+        <span class="marina-route-time">TBC</span>
+      </div>
+    </div>
+    <div class="marina-right">
+      <span class="marina-wa-label">WhatsApp · Call</span>
+      <span class="marina-wa-num">+30 210 XXX XXXX</span>
+      <span class="marina-url">flyhoper.com</span>
+    </div>
+  </div>
+</div>
+
+<div class="meta">Captain's Kit · A5 Card (front+back) · Protocol Sheet · Marina Placement Card · EN / GR / FR</div>
+
+</body>
+</html>

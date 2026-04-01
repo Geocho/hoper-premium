@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hoper — Trade One-Pager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:  #0A0908;
+    --cream:  #F4F0E8;
+    --gold:   #C9A84C;
+    --gold2:  #E8D5A0;
+    --mid:    #6B6258;
+    --dark:   #1C1916;
+    --rule:   rgba(201,168,76,0.25);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: #141210;
+    font-family: 'Cormorant Garamond', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 60px;
+    gap: 16px;
+  }
+
+  .meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .22em;
+    color: #444;
+    text-transform: uppercase;
+  }
+
+  /* ── PAGE ── */
+  .page {
+    width: 794px;       /* A4 @ 96dpi */
+    min-height: 1123px;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 40px 120px rgba(0,0,0,.7);
+  }
+
+  /* Background texture suggestion */
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 120% 60% at 105% 0%, rgba(201,168,76,.07) 0%, transparent 55%),
+      radial-gradient(ellipse 80% 80% at -10% 100%, rgba(201,168,76,.04) 0%, transparent 55%);
+    pointer-events: none;
+  }
+
+  /* ── HEADER BAND ── */
+  .header {
+    background: var(--black);
+    padding: 28px 48px 24px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
+    opacity: .5;
+  }
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .wordmark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .wordmark-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--cream);
+    letter-spacing: .1em;
+  }
+
+  .wordmark-dot {
+    width: 5px; height: 5px;
+    background: var(--gold);
+    border-radius: 50%;
+    margin-bottom: 2px;
+  }
+
+  .header-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: .28em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .header-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-end;
+  }
+
+  .header-doc-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 7.5px;
+    letter-spacing: .22em;
+    color: rgba(244,240,232,.35);
+    text-transform: uppercase;
+  }
+
+  .header-doc-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(244,240,232,.7);
+    font-style: italic;
+  }
+
+  /* ── BODY ── */
+  .body {
+    padding: 36px 48px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HERO STATEMENT ── */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-bottom: .5px solid var(--rule);
+    padding-bottom: 24px;
+  }
+
+  .hero-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--black);
+    line-height: 1.2;
+    letter-spacing: .01em;
+  }
+
+  .hero-headline em {
+    font-style: italic;
+    color: #6B4E1A;
+  }
+
+  .hero-tri {
+    display: flex;
+    gap: 0;
+  }
+
+  .hero-lang {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex: 1;
+    padding-right: 20px;
+    border-right: .5px solid var(--rule);
+  }
+
+  .hero-lang:last-child {
+    border-right: none;
+    padding-right: 0;
+    padding-left: 20px;
+  }
+
+  .hero-lang:nth-child(2) {
+    padding-left: 20px;
+  }
+
+  .lang-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: .2em;
+    color: var(--gold);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .hero-copy {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12.5px;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.45;
+    font-style: italic;
+  }
+
+  /* ── TWO-COL SECTION ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: .25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: .5px solid var(--rule);
+  }
+
+  /* ── PILLARS ── */
+  .pillar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pillar-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .pillar-icon {
+    width: 24px; height: 24px;
+    background: var(--black);
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .pillar-icon span {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    color: var(--gold);
+    letter-spacing: .05em;
+  }
+
+  .pillar-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .pillar-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--black);
+    letter-spacing: .02em;
+  }
+
+  .pillar-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  /* ── ROUTES TABLE ── */
+  .routes-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .routes-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: .18em;
+    color: var(--gold);
+    text-transform: uppercase;
+    text-align: left;
+    padding: 0 0 6px;
+    border-bottom: .5px solid var(--rule);
+  }
+
+  .routes-table td {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11.5px;
+    color: var(--black);
+    padding: 5px 0 4px;
+    border-bottom: .5px solid rgba(0,0,0,.06);
+    vertical-align: middle;
+  }
+
+  .routes-table td.dur {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    font-weight: 400;
+  }
+
+  .routes-table td.seg {
+    font-size: 10px;
+    color: var(--mid);
+    font-style: italic;
+  }
+
+  .route-arrow {
+    color: var(--gold);
+    font-size: 9px;
+    padding: 0 4px;
+  }
+
+  /* ── FULL-WIDTH SECTIONS ── */
+  .full-section {
+    border-top: .5px solid var(--rule);
+    padding-top: 20px;
+  }
+
+  /* ── FLEET BLOCK ── */
+  .fleet-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .fleet-card {
+    background: var(--black);
+    border-radius: 4px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: .5px solid rgba(201,168,76,.15);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .fleet-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    opacity: .4;
+  }
+
+  .fleet-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: .2em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .fleet-models {
+    font-family: 'Playfair Display', serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--cream);
+    letter-spacing: .04em;
+  }
+
+  .fleet-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px;
+    font-weight: 300;
+    color: rgba(244,240,232,.5);
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  /* ── PARTNER VALUE BLOCK ── */
+  .value-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+  }
+
+  .value-item {
+    padding: 0 20px;
+    border-right: .5px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .value-item:first-child { padding-left: 0; }
+  .value-item:last-child { border-right: none; }
+
+  .value-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--black);
+    letter-spacing: -.01em;
+    line-height: 1;
+  }
+
+  .value-num em {
+    font-style: italic;
+    color: #6B4E1A;
+    font-size: 20px;
+  }
+
+  .value-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--mid);
+    font-style: italic;
+    line-height: 1.35;
+  }
+
+  .value-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: .12em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .steps {
+    display: flex;
+    gap: 0;
+    align-items: flex-start;
+  }
+
+  .step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 16px;
+    border-right: .5px solid var(--rule);
+    position: relative;
+  }
+
+  .step:first-child { padding-left: 0; }
+  .step:last-child { border-right: none; }
+
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: rgba(201,168,76,.2);
+    line-height: 1;
+    letter-spacing: -.02em;
+  }
+
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--black);
+  }
+
+  .step-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.45;
+    font-style: italic;
+  }
+
+  /* ── CONTACT FOOTER ── */
+  .footer {
+    background: var(--black);
+    padding: 20px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+
+  .footer::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
+    opacity: .4;
+  }
+
+  .footer-contact {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+
+  .footer-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .footer-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 6.5px;
+    letter-spacing: .2em;
+    color: rgba(244,240,232,.3);
+    text-transform: uppercase;
+  }
+
+  .footer-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: .06em;
+    color: var(--cream);
+  }
+
+  .footer-divider {
+    width: .5px;
+    height: 28px;
+    background: rgba(201,168,76,.2);
+  }
+
+  .footer-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .footer-cta-main {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--gold2);
+    font-style: italic;
+    letter-spacing: .02em;
+  }
+
+  .footer-cta-url {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: .15em;
+    color: rgba(244,240,232,.4);
+    text-transform: uppercase;
+  }
+
+  /* ── DESTINATIONS STRIP ── */
+  .dest-strip {
+    display: flex;
+    gap: 0;
+    border: .5px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .dest-item {
+    flex: 1;
+    padding: 8px 12px;
+    border-right: .5px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .dest-item:last-child { border-right: none; }
+
+  .dest-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--black);
+  }
+
+  .dest-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: .12em;
+    color: var(--gold);
+  }
+
+  /* ── SEPARATOR ── */
+  .sep {
+    height: .5px;
+    background: var(--rule);
+    margin: 4px 0;
+  }
+
+  /* ── INLINE GOLD RULE ── */
+  .gold-rule {
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold) 0%, rgba(201,168,76,.3) 60%, transparent 100%);
+    margin: 0;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="meta">Hoper Aviation — Trade One-Pager — Universal Leave-Behind — EN / GR / FR — A4 Print</div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="wordmark">
+        <span class="wordmark-text">hoper</span>
+        <div class="wordmark-dot"></div>
+      </div>
+      <span class="header-sub">Private Helicopter Aviation · Greece · Mediterranean</span>
+    </div>
+    <div class="header-right">
+      <span class="header-doc-type">Trade Partner Reference</span>
+      <span class="header-doc-name">Your guests. Your terms.</span>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-headline">
+        The fastest way between<br>any two points in the Mediterranean.<br>
+        <em>Private. On demand. Confirmed in minutes.</em>
+      </div>
+      <div class="hero-tri">
+        <div class="hero-lang">
+          <span class="lang-tag">EN</span>
+          <span class="hero-copy">Your clients fly on their schedule — no transfers, no queues, no waiting. Private helicopter to any Greek island or Mediterranean destination, booked and confirmed in minutes.</span>
+        </div>
+        <div class="hero-lang">
+          <span class="lang-tag">GR</span>
+          <span class="hero-copy">Οι πελάτες σας πετούν με το δικό τους πρόγραμμα — χωρίς μεταφορές, χωρίς ουρές, χωρίς αναμονή. Ιδιωτικό ελικόπτερο σε οποιοδήποτε νησί ή προορισμό, κράτηση και επιβεβαίωση σε λεπτά.</span>
+        </div>
+        <div class="hero-lang">
+          <span class="lang-tag">FR</span>
+          <span class="hero-copy">Vos clients volent selon leur emploi du temps — sans transfert, sans file, sans attente. Hélicoptère privé vers toute île grecque ou destination méditerranéenne, réservé et confirmé en quelques minutes.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- VALUE METRICS -->
+    <div class="full-section">
+      <div class="section-title">Why Hoper</div>
+      <div class="value-grid">
+        <div class="value-item">
+          <div class="value-num">35<em>'</em></div>
+          <div class="value-label">Athens to Mykonos. What used to take a full day now takes a morning.</div>
+          <div class="value-sub">Scheduled + Private</div>
+        </div>
+        <div class="value-item">
+          <div class="value-num">&lt;3<em>'</em></div>
+          <div class="value-label">Time to booking confirmation. Call, WhatsApp or online — instant response.</div>
+          <div class="value-sub">Trade booking protocol</div>
+        </div>
+        <div class="value-item">
+          <div class="value-num">H135</div>
+          <div class="value-label">Twin-engine. The safest and most comfortable private helicopter in class.</div>
+          <div class="value-sub">Private charter fleet</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TWO COL: PILLARS + ROUTES -->
+    <div class="two-col">
+
+      <!-- PRODUCTS -->
+      <div>
+        <div class="section-title">Products</div>
+        <div class="pillar-list">
+          <div class="pillar-item">
+            <div class="pillar-icon"><span>PRV</span></div>
+            <div class="pillar-text">
+              <span class="pillar-name">Private Charter</span>
+              <span class="pillar-desc">Fully private. Any route, any time. Quote on request. B407 · H120 · H125 · H135.</span>
+            </div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-icon"><span>SCH</span></div>
+            <div class="pillar-text">
+              <span class="pillar-name">Scheduled Flights</span>
+              <span class="pillar-desc">Fixed routes. Shared cabin. Athens to the islands daily. From €170.</span>
+            </div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-icon"><span>EXP</span></div>
+            <div class="pillar-text">
+              <span class="pillar-name">Experiences & Tours</span>
+              <span class="pillar-desc">Aerial tours. Cyclades, Santorini caldera, Athens. From 20 minutes.</span>
+            </div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-icon"><span>SPC</span></div>
+            <div class="pillar-text">
+              <span class="pillar-name">Special Routes</span>
+              <span class="pillar-desc">Private access. Scorpios, Spetsopoula, resort helipads, offshore arrivals.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROUTES -->
+      <div>
+        <div class="section-title">Key Routes — Greece</div>
+        <table class="routes-table">
+          <thead>
+            <tr>
+              <th>From</th>
+              <th></th>
+              <th>To</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Athens</td>
+              <td><span class="route-arrow">→</span></td>
+              <td>Mykonos</td>
+              <td class="dur">35'</td>
+            </tr>
+            <tr>
+              <td>Athens</td>
+              <td><span class="route-arrow">→</span></td>
+              <td>Santorini</td>
+              <td class="dur">45'</td>
+            </tr>
+            <tr>
+              <td>Athens</td>
+              <td><span class="route-arrow">→</span></td>
+              <td>Rhodes</td>
+              <td class="dur">50'</td>
+            </tr>
+            <tr>
+              <td>Athens</td>
+              <td><span class="route-arrow">→</span></td>
+              <td>Corfu</td>
+              <td class="dur">45'</td>
+            </tr>
+            <tr>
+              <td>Mykonos</td>
+              <td><span class="route-arrow">→</span></td>
+              <td>Santorini</td>
+              <td class="dur">20'</td>
+            </tr>
+            <tr>
+              <td>Athens</td>
+              <td><span class="route-arrow">→</span></td>
+              <td>Costa Navarino</td>
+              <td class="dur">55'</td>
+            </tr>
+            <tr>
+              <td>Athens</td>
+              <td><span class="route-arrow">→</span></td>
+              <td>Amanzoe</td>
+              <td class="dur">40'</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top:12px;">
+          <div class="section-title">Key Routes — Riviera</div>
+          <table class="routes-table">
+            <tbody>
+              <tr>
+                <td>Nice</td>
+                <td><span class="route-arrow">→</span></td>
+                <td>Monaco</td>
+                <td class="dur">12'</td>
+              </tr>
+              <tr>
+                <td>Nice</td>
+                <td><span class="route-arrow">→</span></td>
+                <td>St. Tropez</td>
+                <td class="dur">22'</td>
+              </tr>
+              <tr>
+                <td>Nice</td>
+                <td><span class="route-arrow">→</span></td>
+                <td>Cannes</td>
+                <td class="dur">8'</td>
+              </tr>
+              <tr>
+                <td>Milan</td>
+                <td><span class="route-arrow">→</span></td>
+                <td>Como</td>
+                <td class="dur">18'</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FLEET -->
+    <div class="full-section">
+      <div class="section-title">Fleet</div>
+      <div class="fleet-grid">
+        <div class="fleet-card">
+          <span class="fleet-type">Shared Flights</span>
+          <span class="fleet-models">Robinson R44 · R66</span>
+          <span class="fleet-note">4-seat. Point-to-point. The reliable workhorse of Greek island aviation. Daily scheduled routes.</span>
+        </div>
+        <div class="fleet-card">
+          <span class="fleet-type">Private Charter — Standard</span>
+          <span class="fleet-models">Bell 407 · H120 · H125</span>
+          <span class="fleet-note">Larger cabin. Executive finish. Panoramic windows. Ideal for groups of 4–6.</span>
+        </div>
+        <div class="fleet-card">
+          <span class="fleet-type">Private Charter — Premium</span>
+          <span class="fleet-models">Airbus H135 Twin-Engine</span>
+          <span class="fleet-note">Twin-engine safety. Maximum comfort. The highest specification in private helicopter travel.</span>
+        </div>
+        <div class="fleet-card">
+          <span class="fleet-type">Destinations</span>
+          <span class="fleet-models">Greece · Côte d'Azur · Italy</span>
+          <span class="fleet-note">Greek islands, Riviera (Monaco · Cannes · St. Tropez), Corsica, Milan. Custom routes on request.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="full-section">
+      <div class="section-title">How to Book for Your Clients</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-title">Contact us directly</div>
+          <div class="step-body">WhatsApp, call, or email. A dedicated line for trade partners — answered within minutes, 24/7.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-title">Share the details</div>
+          <div class="step-body">Route, date, passenger count, any preferences. We handle the rest — aircraft selection, coordination, confirmation.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-title">Receive confirmation</div>
+          <div class="step-body">Full booking confirmation in under 3 minutes. Pass directly to your client — or let us communicate with them directly.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div class="step-title">Your client flies</div>
+          <div class="step-body">From helipad to destination. No transfers, no queues. An arrival that matches the standard you've set for everything else.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESTINATIONS STRIP -->
+    <div class="full-section">
+      <div class="section-title">Destinations</div>
+      <div class="dest-strip">
+        <div class="dest-item">
+          <span class="dest-name">Mykonos</span>
+          <span class="dest-sub">ATH → 35'</span>
+        </div>
+        <div class="dest-item">
+          <span class="dest-name">Santorini</span>
+          <span class="dest-sub">ATH → 45'</span>
+        </div>
+        <div class="dest-item">
+          <span class="dest-name">Monaco</span>
+          <span class="dest-sub">NCE → 12'</span>
+        </div>
+        <div class="dest-item">
+          <span class="dest-name">St. Tropez</span>
+          <span class="dest-sub">NCE → 22'</span>
+        </div>
+        <div class="dest-item">
+          <span class="dest-name">Corfu</span>
+          <span class="dest-sub">ATH → 45'</span>
+        </div>
+        <div class="dest-item">
+          <span class="dest-name">Rhodes</span>
+          <span class="dest-sub">ATH → 50'</span>
+        </div>
+        <div class="dest-item">
+          <span class="dest-name">Corsica</span>
+          <span class="dest-sub">NCE → 45'</span>
+        </div>
+        <div class="dest-item">
+          <span class="dest-name">Milan</span>
+          <span class="dest-sub">MXP base</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /body -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-contact">
+      <div class="footer-item">
+        <span class="footer-label">WhatsApp · Trade</span>
+        <span class="footer-value">+30 210 XXX XXXX</span>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="footer-item">
+        <span class="footer-label">Email</span>
+        <span class="footer-value">trade@flyhoper.com</span>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="footer-item">
+        <span class="footer-label">Web</span>
+        <span class="footer-value">flyhoper.com</span>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="footer-item">
+        <span class="footer-label">Response time</span>
+        <span class="footer-value">&lt; 3 minutes · 24/7</span>
+      </div>
+    </div>
+    <div class="footer-cta">
+      <span class="footer-cta-main">Your clients deserve a different arrival.</span>
+      <span class="footer-cta-url">flyhoper.com / trade</span>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<div class="meta">A4 · 210×297mm · Print / PDF · Matte finish recommended · Trade channel only — not for public distribution</div>
+
+</body>
+</html>
