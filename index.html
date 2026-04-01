@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hoper — Partner Deck (Photo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:  #080706;
+  --cream:  #F2EEE5;
+  --gold:   #C9A84C;
+  --gold2:  #E8D5A0;
+  --mid:    #7A6F62;
+  --rule:   rgba(201,168,76,0.2);
+  --slide-w: 960px;
+  --slide-h: 540px;
+  --scale: 1;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: #111;
+  font-family: 'Cormorant Garamond', serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 40px 20px 80px;
+}
+
+/* ── NAV ── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(8,7,6,0.96); backdrop-filter: blur(8px);
+  width: 100%; max-width: min(var(--slide-w), 100%);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 20px; border-bottom: 0.5px solid var(--rule);
+  margin-bottom: 12px;
+}
+.nav-brand { display:flex; align-items:center; }
+.nav-brand img { height: 26px; width: auto; display:block; }
+.brand-logo-cover { width: 340px; max-width: 100%; height: auto; display:block; filter: drop-shadow(0 10px 24px rgba(0,0,0,.22)); }
+.nav-pills { display: flex; gap: 4px; flex-wrap: wrap; }
+.nav-pill { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: .15em; color: var(--mid); text-transform: uppercase; padding: 4px 10px; border: 0.5px solid transparent; border-radius: 2px; cursor: pointer; transition: all .2s; background: none; text-decoration: none; }
+.nav-pill:hover { color: var(--gold); border-color: var(--rule); background: rgba(201,168,76,0.06); }
+
+/* ── SLIDE WRAP ── */
+.slide-wrap {
+  width: 100%;
+  max-width: var(--slide-w);
+  display: flex; flex-direction: column; gap: 4px;
+}
+.slide-num { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .22em; color: #333; text-transform: uppercase; padding-left: 4px; }
+
+/* Slides scale proportionally to fit viewport */
+.slide {
+  width: var(--slide-w);
+  height: var(--slide-h);
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  flex-shrink: 0;
+  transform-origin: top left;
+  transform: scale(var(--scale));
+  margin-bottom: calc((var(--slide-h) * var(--scale)) - var(--slide-h));
+}
+
+/* ── PHOTO SYSTEM ── */
+/* Full-bleed background photo — always fills 100% of slide */
+.photo-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-size: 130%;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+/* Photo overlay to darken/grade for text legibility */
+.photo-overlay {
+  position: absolute; inset: 0; z-index: 1;
+}
+
+/* Split-screen: photo on right, content on left */
+.photo-right {
+  position: absolute;
+  top: 0; right: 0;
+  width: 48%; height: 100%;
+  background-size: 130%;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.photo-right-fade {
+  position: absolute;
+  top: 0; right: 47%; bottom: 0;
+  width: 120px;
+  background: linear-gradient(90deg, var(--black) 0%, transparent 100%);
+  z-index: 1;
+}
+
+/* Photo accent — top strip */
+.photo-top-strip {
+  position: absolute;
+  top: 0; left: 0; right: 0; width: 100%;
+  height: 45%;
+  background-size: 130%;
+  background-position: center top;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.photo-top-fade {
+  position: absolute;
+  top: 38%; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(180deg, transparent 0%, var(--black) 100%);
+  z-index: 1;
+}
+
+/* Photo panel — left column of grid */
+.photo-panel-left {
+  position: absolute;
+  top: 0; left: 0;
+  width: 40%; height: 100%;
+  background-size: 130%;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.photo-panel-left-fade {
+  position: absolute;
+  top: 0; left: 39%; bottom: 0;
+  width: 100px;
+  background: linear-gradient(90deg, transparent 0%, var(--cream) 100%);
+  z-index: 1;
+}
+
+/* Placeholder style */
+.photo-placeholder {
+  background-color: #1a1a18;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.photo-placeholder > .placeholder-icon,
+.photo-placeholder > .placeholder-label { display: none; }
+
+.placeholder-icon {
+  font-size: 24px; opacity: 0.25;
+}
+
+.placeholder-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: .18em;
+  color: rgba(201,168,76,0.35); text-transform: uppercase;
+  text-align: center; padding: 0 20px; line-height: 1.6;
+}
+
+/* ── SHARED SLIDE ELEMENTS ── */
+.slide-inner {
+  position: relative; z-index: 2;
+  width: 100%; height: 100%;
+}
+
+.gold-line-h {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold) 80%, transparent);
+  opacity: .3; z-index: 10;
+}
+
+.slide-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 28px; border-bottom: .5px solid var(--rule);
+}
+.slide-header-left { display: flex; align-items: center; gap: 12px; }
+.slide-num-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .2em; color: var(--gold); }
+.slide-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 500; }
+.slide-brand { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; }
+
+
+/* ══════════════════════════════
+   SLIDE 1 — COVER
+   Layout: full-bleed photo background, content over dark overlay
+══════════════════════════════ */
+.s1 { background: var(--black); }
+
+.s1-photo-bg {
+  background-image: url('https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1200&q=80');
+}
+
+.s1-overlay {
+  background: linear-gradient(
+    105deg,
+    rgba(8,7,6,0.92) 0%,
+    rgba(8,7,6,0.75) 50%,
+    rgba(8,7,6,0.4) 100%
+  );
+}
+
+.s1-inner {
+  padding: 48px 60px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  height: 100%;
+}
+
+.s1-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.s1-tag { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .28em; color: var(--gold); text-transform: uppercase; }
+.s1-date { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .18em; color: rgba(242,238,229,.2); }
+
+.s1-center { display: flex; flex-direction: column; gap: 14px; }
+.s1-logo-text { line-height: 1; }
+.s1-headline { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 400; color: rgba(242,238,229,.65); line-height: 1.3; font-style: italic; max-width: 500px; }
+
+.s1-bottom { display: flex; justify-content: space-between; align-items: flex-end; }
+.s1-for { display: flex; flex-direction: column; gap: 3px; }
+.s1-for-label { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: .22em; color: rgba(242,238,229,.2); text-transform: uppercase; }
+.s1-for-val { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(242,238,229,.5); font-style: italic; }
+
+/* ══════════════════════════════
+   SLIDE 2 — PROPOSITION
+   Layout: split-screen, photo right, content left
+══════════════════════════════ */
+.s2 { background: var(--cream); }
+
+.s2-photo-right {
+  background-image: url('https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80');
+}
+
+.s2-inner {
+  padding: 40px 0 40px 48px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  height: 100%; width: 56%;
+}
+
+.s2-header { display: flex; align-items: center; gap: 12px; padding-bottom: 16px; border-bottom: .5px solid var(--rule); }
+
+.s2-body { display: flex; flex-direction: column; gap: 14px; flex: 1; justify-content: center; }
+.s2-big { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 400; color: var(--black); line-height: 1.25; }
+.s2-big em { font-style: italic; color: #6B4E1A; }
+.s2-body-copy { font-family: 'Cormorant Garamond', serif; font-size: 13px; font-weight: 300; color: var(--mid); line-height: 1.6; font-style: italic; }
+
+.s2-stats { display: flex; flex-direction: column; gap: 10px; }
+.stat-mini { display: flex; align-items: baseline; gap: 10px; padding-bottom: 8px; border-bottom: .5px solid var(--rule); }
+.stat-mini:last-child { border-bottom: none; padding-bottom: 0; }
+.stat-mini-num { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 400; color: var(--black); line-height: 1; min-width: 65px; }
+.stat-mini-num em { font-size: 18px; font-style: italic; color: var(--gold); }
+.stat-mini-text { font-family: 'Cormorant Garamond', serif; font-size: 11.5px; font-weight: 300; color: var(--mid); line-height: 1.4; font-style: italic; }
+
+/* ══════════════════════════════
+   SLIDE 3 — THE CLIENT
+   Layout: full-bleed dark photo, content over overlay
+══════════════════════════════ */
+.s3 { background: var(--black); }
+
+.s3-photo-bg {
+  background-image: url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1200&q=80');
+  background-position: center 30%;
+}
+
+.s3-overlay {
+  background: linear-gradient(180deg, rgba(8,7,6,0.85) 0%, rgba(8,7,6,0.72) 60%, rgba(8,7,6,0.9) 100%);
+}
+
+.s3-inner {
+  padding: 32px 56px 36px;
+  display: flex; flex-direction: column; gap: 0; height: 100%;
+}
+
+.slide-header-dark { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: .5px solid var(--rule); }
+.slide-title-light { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 500; color: var(--cream); }
+
+.s3-grid { flex: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+.persona-card { padding: 20px 20px 18px; border-right: .5px solid var(--rule); display: flex; flex-direction: column; gap: 8px; }
+.persona-card:last-child { border-right: none; }
+.persona-icon { font-family: 'DM Mono', monospace; font-size: 7.5px; letter-spacing: .2em; color: var(--gold); text-transform: uppercase; padding-bottom: 8px; border-bottom: .5px solid var(--rule); }
+.persona-name { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 500; color: var(--cream); line-height: 1.2; }
+.persona-desc { font-family: 'Cormorant Garamond', serif; font-size: 11.5px; font-weight: 300; color: rgba(242,238,229,.5); line-height: 1.5; font-style: italic; flex: 1; }
+.persona-need { display: flex; flex-direction: column; gap: 4px; }
+.need-label { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: .18em; color: var(--gold); text-transform: uppercase; opacity: .7; }
+.need-text { font-family: 'Cormorant Garamond', serif; font-size: 11.5px; color: rgba(242,238,229,.75); line-height: 1.4; }
+
+/* ══════════════════════════════
+   SLIDE 4 — PRODUCTS
+   Layout: light with photo panel on left
+══════════════════════════════ */
+.s4 { background: var(--cream); }
+
+.s4-photo-left {
+  background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80');
+  background-position: center;
+}
+
+.s4-panel-fade {
+  background: linear-gradient(90deg, transparent 0%, var(--cream) 100%);
+}
+
+.s4-inner {
+  padding: 36px 48px 36px 44%;
+  display: flex; flex-direction: column; gap: 18px;
+  height: 100%;
+}
+
+.s4-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: .5px solid var(--rule); }
+
+.s4-grid { flex: 1; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; }
+.product-card { background: var(--black); border-radius: 3px; padding: 14px 16px; display: flex; flex-direction: column; gap: 5px; border: .5px solid rgba(201,168,76,.12); position: relative; overflow: hidden; }
+.product-card::after { content: ''; position: absolute; top: 0; left: 0; width: 2px; height: 100%; background: var(--gold); opacity: .4; }
+.product-code { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: .22em; color: var(--gold); text-transform: uppercase; }
+.product-name { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 500; color: var(--cream); }
+.product-desc { font-family: 'Cormorant Garamond', serif; font-size: 11px; font-weight: 300; color: rgba(242,238,229,.5); line-height: 1.4; font-style: italic; flex: 1; }
+.product-fleet { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: .12em; color: rgba(201,168,76,.55); text-transform: uppercase; border-top: .5px solid rgba(201,168,76,.1); padding-top: 5px; margin-top: 3px; }
+
+/* ══════════════════════════════
+   SLIDE 5 — DESTINATIONS
+   Layout: full-bleed aerial photo, dark overlay, content
+══════════════════════════════ */
+.s5 { background: var(--black); }
+
+.s5-photo-bg {
+  background-image: url('https://images.unsplash.com/photo-1601581875309-fafbf2d3ed3a?w=1200&q=80');
+  background-position: center 40%;
+}
+
+.s5-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(8,7,6,0.9) 0%,
+    rgba(8,7,6,0.75) 50%,
+    rgba(8,7,6,0.65) 100%
+  );
+}
+
+.s5-inner {
+  padding: 32px 52px 36px;
+  display: flex; flex-direction: column; gap: 0; height: 100%;
+}
+
+.s5-map { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.dest-col { padding: 18px 22px; border-right: .5px solid var(--rule); }
+.dest-col:last-child { border-right: none; }
+.dest-col-title { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: .22em; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; padding-bottom: 8px; border-bottom: .5px solid var(--rule); }
+.dest-route { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: .5px solid rgba(255,255,255,.05); }
+.dest-route:last-child { border-bottom: none; }
+.dest-from-to { display: flex; align-items: center; gap: 8px; }
+.dest-city { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 400; color: var(--cream); }
+.dest-arrow { color: var(--gold); font-size: 9px; opacity: .6; }
+.dest-time { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gold); letter-spacing: .08em; }
+
+/* ══════════════════════════════
+   SLIDE 6 — FLEET
+   Layout: cream, split content / interior photo right
+══════════════════════════════ */
+.s6 { background: var(--cream); }
+
+.s6-photo-right {
+  background-image: url('https://images.unsplash.com/photo-1586016413664-864c0dd76f53?w=800&q=80');
+  background-position: center;
+}
+
+.s6-inner {
+  padding: 36px 0 36px 48px;
+  display: flex; flex-direction: column; gap: 18px;
+  height: 100%; width: 56%;
+}
+
+.s6-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: .5px solid var(--rule); }
+
+.s6-cols { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.fleet-col { display: flex; flex-direction: column; gap: 0; border: .5px solid var(--rule); border-radius: 3px; overflow: hidden; }
+.fleet-col-header { background: var(--black); padding: 8px 14px; display: flex; justify-content: space-between; align-items: center; }
+.fleet-col-type { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: .2em; color: var(--gold); text-transform: uppercase; }
+.fleet-col-use { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: .12em; color: rgba(242,238,229,.2); text-transform: uppercase; }
+.fleet-col-body { padding: 10px 14px; display: flex; gap: 16px; }
+.fleet-model { font-family: 'Playfair Display', serif; font-size: 12px; font-weight: 500; color: var(--black); }
+.fleet-spec { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: .1em; color: var(--mid); margin-left: 4px; }
+
+.fleet-rule-mini { background: rgba(201,168,76,.07); border: .5px solid var(--rule); border-radius: 3px; padding: 8px 14px; font-family: 'Cormorant Garamond', serif; font-size: 11.5px; font-weight: 300; color: var(--mid); font-style: italic; line-height: 1.4; }
+
+/* ══════════════════════════════
+   SLIDE 7 — HOW TO PARTNER
+   Layout: dark, hero photo strip top, steps below
+══════════════════════════════ */
+.s7 { background: var(--black); }
+
+.s7-photo-top {
+  background-image: url('https://images.unsplash.com/photo-1488085061387-422e29b40080?w=1200&q=80');
+  background-position: center 60%;
+}
+
+.s7-top-fade {
+  background: linear-gradient(180deg, rgba(8,7,6,0.5) 0%, rgba(8,7,6,0.98) 100%);
+}
+
+.s7-inner {
+  padding: 0 52px 32px;
+  display: flex; flex-direction: column; gap: 0; height: 100%;
+}
+
+.s7-header-area {
+  height: 45%; display: flex; align-items: flex-end;
+  padding-bottom: 20px; border-bottom: .5px solid var(--rule);
+  justify-content: space-between;
+}
+
+.s7-steps { flex: 1; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0; align-items: stretch; }
+.how-step { padding: 18px 18px; border-right: .5px solid var(--rule); display: flex; flex-direction: column; gap: 8px; }
+.how-step:last-child { border-right: none; }
+.how-step-n { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 400; color: rgba(201,168,76,.18); line-height: 1; }
+.how-step-title { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 500; color: var(--cream); line-height: 1.25; }
+.how-step-body { font-family: 'Cormorant Garamond', serif; font-size: 11px; font-weight: 300; color: rgba(242,238,229,.45); line-height: 1.5; font-style: italic; flex: 1; }
+.how-step-note { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: .15em; color: var(--gold); text-transform: uppercase; opacity: .7; }
+
+/* ══════════════════════════════
+   SLIDE 8 — CLOSE
+   Layout: full-bleed landscape photo, strong overlay
+══════════════════════════════ */
+.s8 { background: var(--black); }
+
+.s8-photo-bg {
+  background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=80');
+  background-position: center 40%;
+}
+
+.s8-overlay {
+  background: linear-gradient(
+    120deg,
+    rgba(8,7,6,0.92) 0%,
+    rgba(8,7,6,0.7) 60%,
+    rgba(8,7,6,0.5) 100%
+  );
+}
+
+.s8-inner {
+  padding: 52px 60px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  height: 100%;
+}
+
+.s8-center { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+.s8-headline { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 400; color: var(--cream); line-height: 1.2; max-width: 560px; }
+.s8-headline em { font-style: italic; color: var(--gold2); }
+.s8-sub { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-weight: 300; color: rgba(242,238,229,.45); font-style: italic; max-width: 460px; line-height: 1.5; }
+
+.s8-contact { display: flex; gap: 28px; }
+.contact-item { display: flex; flex-direction: column; gap: 2px; }
+.contact-label { font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: .22em; color: rgba(242,238,229,.2); text-transform: uppercase; }
+.contact-val { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .06em; color: rgba(242,238,229,.6); }
+
+/* Photo note badges */
+.photo-note {
+  position: absolute; bottom: 12px; right: 12px; z-index: 20;
+  background: rgba(201,168,76,0.15); border: .5px solid rgba(201,168,76,0.35);
+  border-radius: 2px; padding: 4px 8px;
+  font-family: 'DM Mono', monospace; font-size: 7px; letter-spacing: .15em;
+  color: var(--gold); text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-brand"><img src="logo hoper.png" alt="Hoper logo"></span>
+  <div class="nav-pills">
+    <a class="nav-pill" href="#s1">Cover</a>
+    <a class="nav-pill" href="#s2">Proposition</a>
+    <a class="nav-pill" href="#s3">Client</a>
+    <a class="nav-pill" href="#s4">Products</a>
+    <a class="nav-pill" href="#s5">Destinations</a>
+    <a class="nav-pill" href="#s6">Fleet</a>
+    <a class="nav-pill" href="#s7">Partnership</a>
+    <a class="nav-pill" href="#s8">Contact</a>
+  </div>
+</nav>
+
+<!-- ── S1: COVER — Full bleed aerial ── -->
+<div class="slide-wrap" id="s1">
+  <div class="slide-num">01 / 08 — Cover · Full-bleed aerial photo</div>
+  <div class="slide s1">
+    <div class="photo-bg s1-photo-bg" style="background-image:url('04.jpeg'); background-position:center center; background-size: cover;"></div>
+    <div class="photo-overlay s1-overlay"></div>
+    <div class="slide-inner s1-inner">
+      <div class="s1-top">
+        <span class="s1-tag">Trade Partner Presentation — Confidential</span>
+        <span class="s1-date">2026</span>
+      </div>
+      <div class="s1-center">
+        <span class="s1-logo-text">hoper</span>
+        <div class="s1-headline">The fastest way between any two points in the Mediterranean.<br>For your clients who measure time differently.</div>
+      </div>
+      <div class="s1-bottom">
+        <div class="s1-for">
+          <span class="s1-for-label">Prepared for</span>
+          <span class="s1-for-val">VIP Lifestyle Planners · Luxury Travel Agents · Concierge Partners</span>
+        </div>
+      </div>
+    </div>
+    <div class="photo-note">Photo: rotor detail · golden light · editorial</div>
+    <div class="gold-line-h"></div>
+  </div>
+</div>
+
+<!-- ── S2: PROPOSITION — Split screen, photo right ── -->
+<div class="slide-wrap" id="s2">
+  <div class="slide-num">02 / 08 — Proposition · Split-screen, photo right</div>
+  <div class="slide s2">
+    <div class="photo-right s2-photo-right" style="background-image:url('02.jpeg'); background-position:center center; background-size: cover;">
+      <span class="placeholder-icon" style="color:rgba(201,168,76,.3)">🏖</span>
+      <span class="placeholder-label" style="background-image:url('04.jpeg'); background-position:center center;"></span>
+    </div>
+    <div class="photo-right-fade"></div>
+    <div class="slide-inner">
+      <div class="s2-inner">
+        <div class="s2-header">
+          <div class="slide-header-left">
+            <span class="slide-num-tag">02</span>
+            <span class="slide-title" style="color:var(--black)">The Proposition</span>
+          </div>
+          <span class="slide-brand" style="color:var(--mid)"><img src="logo hoper.png" alt="Hoper" style="height:14px;width:auto;vertical-align:middle"></span>
+        </div>
+        <div class="s2-body">
+          <div class="s2-big">Your clients don't wait.<br><em>Now their travel doesn't either.</em></div>
+          <div class="s2-body-copy">Hoper is a private helicopter platform operating across Greece and the Mediterranean. We turn multi-hour transfers into minutes — confirmed instantly, on demand.</div>
+        </div>
+        <div class="s2-stats">
+          <div class="stat-mini">
+            <div class="stat-mini-num">35<em>'</em></div>
+            <div class="stat-mini-text">Athens to Mykonos. What used to take a full day.</div>
+          </div>
+          <div class="stat-mini">
+            <div class="stat-mini-num">&lt;3<em>'</em></div>
+            <div class="stat-mini-text">Booking confirmation. Trade partners first.</div>
+          </div>
+          <div class="stat-mini">
+            <div class="stat-mini-num">24<em>/7</em></div>
+            <div class="stat-mini-text">Dedicated trade line. A person, not a form.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="photo-note">Photo: couple arriving · lifestyle · pilot</div>
+  </div>
+</div>
+
+<!-- ── S3: CLIENT — Full bleed lifestyle ── -->
+<div class="slide-wrap" id="s3">
+  <div class="slide-num">03 / 08 — The Client · Full-bleed lifestyle, dark overlay</div>
+  <div class="slide s3">
+    <div class="photo-bg s3-photo-bg" style="background-image:url('03.jpeg'); background-position:center center; background-size: cover;">
+      <span class="placeholder-icon">🛥</span>
+      <span class="placeholder-label" style="background-image:url('04.jpeg'); background-position:center center;"></span>
+    </div>
+    <div class="photo-overlay s3-overlay"></div>
+    <div class="slide-inner s3-inner">
+      <div class="slide-header-dark">
+        <div class="slide-header-left">
+          <span class="slide-num-tag">03</span>
+          <span class="slide-title-light">The Client</span>
+        </div>
+        <span class="slide-brand" style="color:rgba(242,238,229,.2)"><img src="logo hoper.png" alt="Hoper" style="height:14px;width:auto;vertical-align:middle"></span>
+      </div>
+      <div class="s3-grid">
+        <div class="persona-card">
+          <div class="persona-icon">Luxury Traveller</div>
+          <div class="persona-name">HNW &amp; UHNW Travellers</div>
+          <div class="persona-desc">Time is the only currency that can't be replenished. They pay for speed, comfort, and the absence of friction.</div>
+          <div class="persona-need">
+            <span class="need-label">What they want</span>
+            <span class="need-text">Private, on-demand. Confirmation in minutes, not hours.</span>
+          </div>
+        </div>
+        <div class="persona-card">
+          <div class="persona-icon">Yacht &amp; Resort Guest</div>
+          <div class="persona-name">Superyacht &amp; Luxury Resort Guests</div>
+          <div class="persona-desc">On a 50m yacht in Mykonos or checking out of Amanzoe — the next destination is already in mind. Hoper fills the gap.</div>
+          <div class="persona-need">
+            <span class="need-label">What they want</span>
+            <span class="need-text">Seamless island-to-island. Arranged by captain or concierge.</span>
+          </div>
+        </div>
+        <div class="persona-card">
+          <div class="persona-icon">Event &amp; VIP Traveller</div>
+          <div class="persona-name">Monaco F1 · Cannes · Major Events</div>
+          <div class="persona-desc">They arrive for a purpose. Getting there — and arriving correctly — is part of the experience they've paid for.</div>
+          <div class="persona-need">
+            <span class="need-label">What they want</span>
+            <span class="need-text">Precision timing. An entrance that matches the occasion.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="photo-note">Photo: boarding scene · garden helipad · couple + pilot</div>
+  </div>
+</div>
+
+<!-- ── S4: PRODUCTS — Left photo panel ── -->
+<div class="slide-wrap" id="s4">
+  <div class="slide-num">04 / 08 — Products · Left photo panel</div>
+  <div class="slide s4">
+    <div class="photo-panel-left s4-photo-left" style="background-image:url('07.jpeg'); background-position:center top; background-size: cover;">
+      <span class="placeholder-icon" style="color:rgba(201,168,76,.3)">🚁</span>
+      <span class="placeholder-label" style="background-image:url('03.jpeg'); background-position:center center;"></span>
+    </div>
+    <div class="photo-panel-left-fade s4-panel-fade"></div>
+    <div class="slide-inner">
+      <div class="s4-inner">
+        <div class="s4-header">
+          <div class="slide-header-left">
+            <span class="slide-num-tag">04</span>
+            <span class="slide-title" style="color:var(--black)">Products</span>
+          </div>
+          <span class="slide-brand" style="color:var(--mid)"><img src="logo hoper.png" alt="Hoper" style="height:14px;width:auto;vertical-align:middle"></span>
+        </div>
+        <div class="s4-grid">
+          <div class="product-card">
+            <span class="product-code">Private Charter</span>
+            <span class="product-name">No schedules. Just fly.</span>
+            <span class="product-desc">Fully private. Any route, any time. Quote on request, confirmed in minutes.</span>
+            <span class="product-fleet">B407 · H120 · H125 · H135 Twin-Engine</span>
+          </div>
+          <div class="product-card">
+            <span class="product-code">Scheduled Flights</span>
+            <span class="product-name">Skip the ferry. Fly.</span>
+            <span class="product-desc">Fixed-route daily flights between Athens and the islands. From €170.</span>
+            <span class="product-fleet">Robinson R44 · R66 · Fixed daily routes</span>
+          </div>
+          <div class="product-card">
+            <span class="product-code">Experiences &amp; Tours</span>
+            <span class="product-name">See it differently. Fly.</span>
+            <span class="product-desc">Aerial tours of Santorini caldera, Cyclades, Athens. From 20 minutes.</span>
+            <span class="product-fleet">All fleet · From 20 minutes · Custom routes</span>
+          </div>
+          <div class="product-card">
+            <span class="product-code">Special Routes</span>
+            <span class="product-name">Go where others can't.</span>
+            <span class="product-desc">Scorpios, Spetsopoula, resort helipads, offshore yacht arrivals.</span>
+            <span class="product-fleet">H125 · H135 · On request only</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="photo-note">Photo: lifestyle · man exiting helicopter · editorial</div>
+  </div>
+</div>
+
+<!-- ── S5: DESTINATIONS — Full bleed aerial Greek islands ── -->
+<div class="slide-wrap" id="s5">
+  <div class="slide-num">05 / 08 — Destinations · Full-bleed aerial, semi-transparent content</div>
+  <div class="slide s5">
+    <div class="photo-bg s5-photo-bg photo-placeholder" style="background-image:url('04.jpeg'); background-position:center center; background-size: cover;">
+      <span class="placeholder-icon">🏝</span>
+      <span class="placeholder-label" style="background-image:url('04.jpeg'); background-position:center center;"></span>
+    </div>
+    <div class="photo-overlay s5-overlay"></div>
+    <div class="slide-inner s5-inner">
+      <div class="slide-header-dark">
+        <div class="slide-header-left">
+          <span class="slide-num-tag">05</span>
+          <span class="slide-title-light">Destinations</span>
+        </div>
+        <span class="slide-brand" style="color:rgba(242,238,229,.2)"><img src="logo hoper.png" alt="Hoper" style="height:14px;width:auto;vertical-align:middle"></span>
+      </div>
+      <div class="s5-map">
+        <div class="dest-col">
+          <div class="dest-col-title">Greece</div>
+          <div class="dest-route"><div class="dest-from-to"><span class="dest-city">Athens</span><span class="dest-arrow">→</span><span class="dest-city">Mykonos</span></div><span class="dest-time">35'</span></div>
+          <div class="dest-route"><div class="dest-from-to"><span class="dest-city">Athens</span><span class="dest-arrow">→</span><span class="dest-city">Santorini</span></div><span class="dest-time">45'</span></div>
+          <div class="dest-route"><div class="dest-from-to"><span class="dest-city">Athens</span><span class="dest-arrow">→</span><span class="dest-city">Rhodes</span></div><span class="dest-time">50'</span></div>
+          <div class="dest-route"><div class="dest-from-to"><span class="dest-city">Athens</span><span class="dest-arrow">→</span><span class="dest-city">Corfu</span></div><span class="dest-time">45'</span></div>
+          <div class="dest-route"><div class="dest-from-to"><span class="dest-city">Mykonos</span><span class="dest-arrow">→</span><span class="dest-city">Santorini</span></div><span class="dest-time">20'</span></div>
+          <div class="dest-route"><div class="dest-from-to"><span class="dest-city">Athens</span><span class="dest-arrow">→</span><span class="dest-city">Costa Navarino</span></div><span class="dest-time">55'</span></div>
+        </div>
+        <div class="dest-col">
+          <div class="dest-col-title">Côte d'Azur · Italy</div>
+          <div class="dest-route"><div class="dest-from-to"><span class="dest-city">Nice</span><span class="dest-arrow">→</span><span class="dest-city">Monaco</span></div><span class="dest-time">12'</span></div>
+          <div class="dest-route"><div class="dest-from-to"><span class="dest-city">Nice</span><span class="dest-arrow">→</span><span class="dest-city">Cannes</span></div><span class="dest-time">8'</span></div>
+          <div class="dest-route"><div class="dest-from-to"><span class="dest-city">Nice</span><span class="dest-arrow">→</span><span class="dest-city">St. Tropez</span></div><span class="dest-time">22'</span></div>
+          <div class="dest-route"><div class="dest-from-to"><span class="dest-city">Nice</span><span class="dest-arrow">→</span><span class="dest-city">Corsica</span></div><span class="dest-time">45'</span></div>
+          <div class="dest-route"><div class="dest-from-to"><span class="dest-city">Milan</span><span class="dest-arrow">→</span><span class="dest-city">Como</span></div><span class="dest-time">18'</span></div>
+          <div class="dest-route"><div class="dest-from-to"><span class="dest-city">Any point</span><span class="dest-arrow">→</span><span class="dest-city">Custom route</span></div><span class="dest-time">On request</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="photo-note">Photo: aerial · Mykonos or Santorini · establishing wide</div>
+  </div>
+</div>
+
+<!-- ── S6: FLEET — Split, interior photo right ── -->
+<div class="slide-wrap" id="s6">
+  <div class="slide-num">06 / 08 — Fleet · Split-screen, cabin interior photo right</div>
+  <div class="slide s6">
+    <div class="photo-right s6-photo-right" style="background-image:url('05.jpeg'); background-position:center center; background-size: cover;">
+      <span class="placeholder-icon" style="color:rgba(201,168,76,.3)">🪑</span>
+      <span class="placeholder-label" style="background-image:url('02.jpeg'); background-position:center center;"></span>
+    </div>
+    <div class="photo-right-fade"></div>
+    <div class="slide-inner">
+      <div class="s6-inner">
+        <div class="s6-header">
+          <div class="slide-header-left">
+            <span class="slide-num-tag">06</span>
+            <span class="slide-title" style="color:var(--black)">Fleet</span>
+          </div>
+          <span class="slide-brand" style="color:var(--mid)"><img src="logo hoper.png" alt="Hoper" style="height:14px;width:auto;vertical-align:middle"></span>
+        </div>
+        <div class="s6-cols">
+          <div class="fleet-col">
+            <div class="fleet-col-header">
+              <span class="fleet-col-type">Shared Flights</span>
+              <span class="fleet-col-use">Scheduled routes only</span>
+            </div>
+            <div class="fleet-col-body">
+              <span><span class="fleet-model">Robinson R44</span><span class="fleet-spec">4-seat</span></span>
+              <span><span class="fleet-model">Robinson R66</span><span class="fleet-spec">5-seat · Turbine</span></span>
+            </div>
+          </div>
+          <div class="fleet-col">
+            <div class="fleet-col-header">
+              <span class="fleet-col-type">Private Charter</span>
+              <span class="fleet-col-use">Private only · Never shared</span>
+            </div>
+            <div class="fleet-col-body">
+              <span><span class="fleet-model">Bell 407</span><span class="fleet-spec">6-seat · Executive</span></span>
+              <span><span class="fleet-model">H120 · H125</span><span class="fleet-spec">5–6 seat · Panoramic</span></span>
+              <span><span class="fleet-model">Airbus H135</span><span class="fleet-spec">7-seat · Twin-engine · Premium</span></span>
+            </div>
+          </div>
+          <div class="fleet-rule-mini">Private charter clients always fly on B407, H120, H125 or H135. The R44 and R66 are reserved exclusively for scheduled shared flights — and your clients will notice the difference.</div>
+        </div>
+      </div>
+    </div>
+    <div class="photo-note">Photo: rotor closeup · mechanical detail · golden</div>
+  </div>
+</div>
+
+<!-- ── S7: HOW TO PARTNER — Photo top strip ── -->
+<div class="slide-wrap" id="s7">
+  <div class="slide-num">07 / 08 — How to Partner · Landscape photo top strip</div>
+  <div class="slide s7">
+    <div class="photo-top-strip s7-photo-top" style="background-image:url('01.jpeg'); background-position:center center; background-size: cover;">
+      <span class="placeholder-icon">🌅</span>
+      <span class="placeholder-label" style="background-image:url('04.jpeg'); background-position:center center;"></span>
+    </div>
+    <div class="photo-top-fade s7-top-fade"></div>
+    <div class="slide-inner s7-inner">
+      <div class="s7-header-area">
+        <div class="slide-header-left">
+          <span class="slide-num-tag" style="color:var(--gold)">07</span>
+          <span class="slide-title-light">How to Partner</span>
+        </div>
+        <span class="slide-brand" style="color:rgba(242,238,229,.2)"><img src="logo hoper.png" alt="Hoper" style="height:14px;width:auto;vertical-align:middle"></span>
+      </div>
+      <div class="s7-steps">
+        <div class="how-step">
+          <div class="how-step-n">01</div>
+          <div class="how-step-title">Direct access. A person, not a form.</div>
+          <div class="how-step-body">WhatsApp or call. Answered in minutes, 24/7.</div>
+          <div class="how-step-note">WhatsApp · Call · Email</div>
+        </div>
+        <div class="how-step">
+          <div class="how-step-n">02</div>
+          <div class="how-step-title">Send the details. We handle the rest.</div>
+          <div class="how-step-body">Route, date, guests. Confirmation in under 3 minutes.</div>
+          <div class="how-step-note">Confirmation in &lt; 3 minutes</div>
+        </div>
+        <div class="how-step">
+          <div class="how-step-n">03</div>
+          <div class="how-step-title">Your client flies. You take the credit.</div>
+          <div class="how-step-body">A seamless experience that reflects your standard.</div>
+          <div class="how-step-note">White-label available</div>
+        </div>
+        <div class="how-step">
+          <div class="how-step-n">04</div>
+          <div class="how-step-title">Commission. Simple and reliable.</div>
+          <div class="how-step-body">Clear, consistent, paid promptly. Details at onboarding.</div>
+          <div class="how-step-note">Commission · Referral tiers</div>
+        </div>
+      </div>
+    </div>
+    <div class="photo-note">Photo: boarding scene · garden helipad · top strip</div>
+  </div>
+</div>
+
+<!-- ── S8: CLOSE — Full bleed landscape ── -->
+<div class="slide-wrap" id="s8">
+  <div class="slide-num">08 / 08 — Contact · Full-bleed landscape, strong overlay</div>
+  <div class="slide s8">
+    <div class="photo-bg s8-photo-bg" style="background-image:url('02.jpeg'); background-position:center center; background-size: cover;">
+      <span class="placeholder-icon">🌄</span>
+      <span class="placeholder-label" style="background-image:url('04.jpeg'); background-position:center center;"></span>
+    </div>
+    <div class="photo-overlay s8-overlay"></div>
+    <div class="slide-inner s8-inner">
+      <div class="s8-center">
+        <div class="s8-headline">Your clients measure time<br>in <em>minutes, not hours.</em><br>So do we.</div>
+        <div class="s8-sub">Ready to add private helicopter access to what you offer? Let's talk.</div>
+      </div>
+      <div class="s8-contact">
+        <div class="contact-item">
+          <span class="contact-label">WhatsApp · Trade Partners</span>
+          <span class="contact-val">+30 210 XXX XXXX</span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label">Email</span>
+          <span class="contact-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6511170401002503091c0d0a1500174b060a08">[email&#160;protected]</a></span>
+        </div>
+        <div class="contact-item">
+          <span class="contact-label">Web</span>
+          <span class="contact-val">flyhoper.com</span>
+        </div>
+      </div>
+    </div>
+    <div class="photo-note">Photo: Santorini · or Mykonos aerial dusk</div>
+  </div>
+</div>
+
+<script>
+  function scaleSlides() {
+    var SLIDE_W = 960;
+    var availW = Math.min(window.innerWidth - 40, SLIDE_W);
+    var scale = availW / SLIDE_W;
+
+    document.documentElement.style.setProperty('--scale', scale);
+
+    document.querySelectorAll('.slide-wrap').forEach(function(el) {
+      el.style.width = (SLIDE_W * scale) + 'px';
+    });
+
+    var nav = document.querySelector('.nav');
+    if (nav) nav.style.maxWidth = (SLIDE_W * scale) + 'px';
+  }
+
+  scaleSlides();
+  window.addEventListener('resize', scaleSlides);
+</script>
+</body>
+</html>
